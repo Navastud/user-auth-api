@@ -1,0 +1,80 @@
+@startuml
+!define PARTICIPANT participant
+
+PARTICIPANT UserController
+PARTICIPANT UserService
+PARTICIPANT UserRepository
+PARTICIPANT UserMapper
+PARTICIPANT RegexUtil
+PARTICIPANT JWTUtil
+PARTICIPANT Exception
+PARTICIPANT Hibernate
+
+UserController --> UserService: /sign-up(request: UserDTO)
+activate UserService
+    alt email is valid
+        UserService --> RegexUtil: emailValidation(email)
+        activate RegexUtil
+        RegexUtil --> UserService: return a boolean
+        deactivate RegexUtil
+    else email is not valid
+        UserService --> Exception: throw exception
+        activate Exception
+        Exception --> UserController: Return bad request exception
+        deactivate Exception
+    end
+
+    alt password is valid
+        UserService --> RegexUtil: passwordValidation(password)
+        activate RegexUtil
+        RegexUtil --> UserService: return a boolean
+        deactivate RegexUtil
+    else password is not valid
+        UserService --> Exception: throw exception
+        activate Exception
+        Exception --> UserController: Return ResponseEntity<Error>
+        deactivate Exception
+    end
+
+    UserService --> UserMapper: mapToEntity(userDTO: UserDTO)
+    activate UserMapper
+    UserMapper --> UserService: Return entity object
+    deactivate UserMapper
+
+    alt User Find By Email
+        UserService --> UserRepository: userFindByEmail(email)
+        activate UserRepository
+        UserRepository --> Hibernate: findByEmail(String : email)
+        activate Hibernate
+        Hibernate --> UserRepository: Return userEntity
+        UserRepository --> UserService: Return userEntity
+        deactivate Hibernate
+        deactivate UserRepository
+        UserService --> Exception: throw JPA exception
+        activate Exception
+        Exception --> UserController: Return ResponseEntity<Error>
+        deactivate Exception
+    else User Find By Email Not Found
+       UserService --> UserRepository: save(userEntity: UserEntity)
+       activate UserRepository
+       UserRepository --> Hibernate: save(userEntity: UserEntity)
+       activate Hibernate
+       Hibernate --> UserRepository: Return persistence userEntity with ID
+       deactivate Hibernate
+       deactivate UserRepository
+    end
+
+    UserService --> UserMapper: mapUserResponseDTO(userEntity: UserEntity)
+    activate UserMapper
+
+    UserMapper --> UserService: return dto object
+    deactivate UserMapper
+    UserService --> UserController: return ResponseEntity<UserResponseDTO>
+deactivate UserService
+deactivate UserController
+
+@enduml
+
+
+
+

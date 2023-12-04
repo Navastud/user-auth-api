@@ -1,0 +1,84 @@
+@startuml
+!define PARTICIPANT participant
+
+PARTICIPANT UserController
+PARTICIPANT UserService
+PARTICIPANT UserRepository
+PARTICIPANT UserMapper
+PARTICIPANT RegexUtil
+PARTICIPANT JWTUtil
+PARTICIPANT Exception
+PARTICIPANT Hibernate
+
+UserController --> UserService: /login(request: JWT)
+activate UserService
+    alt Is Not Token Expired
+        UserService --> JWTUtil: isTokenExpired(token)
+        activate JWTUtil
+        JWTUtil --> UserService: return a boolean
+        deactivate JWTUtil
+    else Is Token Expired
+        UserService --> Exception: throw exception
+        activate Exception
+        Exception --> UserController: Return bad request exception
+        deactivate Exception
+    end
+
+    alt Get Email From Token
+        UserService --> JWTUtil: getEmailFromToken(token);
+        activate JWTUtil
+        JWTUtil --> JWTUtil: getClaimsFromToken
+        activate JWTUtil
+        JWTUtil --> UserService: return user email
+        deactivate JWTUtil
+    else Error Get Claims From Token
+        JWTUtil --> Exception: throw exception
+        deactivate JWTUtil
+        activate Exception
+        Exception --> UserController: Return bad request exception
+        deactivate Exception
+    end
+
+    alt User Find By Email
+        UserService --> UserRepository: userFindByEmail(email)
+        activate UserRepository
+        UserRepository --> Hibernate: findByEmail(String : email)
+        activate Hibernate
+        Hibernate --> UserRepository: Return userEntity
+        UserRepository --> UserService: Return userEntity
+        deactivate Hibernate
+        deactivate UserRepository
+    else User Find By Email Not Found
+        UserService --> Exception: throw exception
+        activate Exception
+        Exception --> UserController: Return ResponseEntity<Error>
+        deactivate Exception
+    end
+
+    UserService --> UserRepository: updateLastLogin
+    activate UserRepository
+    UserRepository --> Hibernate: save(userEntity: UserEntity)
+    activate Hibernate
+    Hibernate --> UserRepository: Return persistence userEntity with ID
+    deactivate Hibernate
+    UserRepository --> UserService: Entity updated
+    deactivate UserRepository
+
+    UserService --> JWTUtil: generateToken(email)
+    activate JWTUtil
+    JWTUtil --> UserService: return new token
+    deactivate JWTUtil
+
+    UserService --> UserMapper: mapUserResponseDTO(userDTO: UserDTO, String token)
+    activate UserMapper
+    UserMapper --> UserService: Return UserResponseDTO object
+    deactivate UserMapper
+    UserService --> UserController: return ResponseEntity<UserResponseDTO>
+deactivate UserService
+deactivate UserController
+
+@enduml
+
+
+
+

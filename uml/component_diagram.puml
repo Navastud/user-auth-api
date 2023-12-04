@@ -1,0 +1,119 @@
+@startuml
+'https://plantuml.com/component-diagram
+!define PACKAGE package
+!define COMPONENT component
+!define DATABASE database
+
+PACKAGE controller {
+  [UserController]
+}
+
+PACKAGE spring.org {
+  [SpringFramework]
+}
+
+PACKAGE configuration {
+  [SecurityConfig]
+}
+
+PACKAGE service {
+  [UserService]
+}
+
+PACKAGE util {
+  [JWTUtil]
+  [PasswordEncodeUtil]
+  [RegexUtil]
+  [UriUtil]
+}
+
+PACKAGE repository {
+  [UserRepository]
+}
+
+PACKAGE mapper {
+  [UserMapper]
+}
+
+PACKAGE filter {
+  [JwtAuthenticationFilter]
+  [JwtAuthorizationFilter]
+}
+
+PACKAGE exception {
+  [ApiExceptionHandler]
+  [BadRequestException]
+  [ConflictException]
+  [InternalServerErrorException]
+  [NotFoundException]
+  [TokenExpiredException]
+  [UserAlreadyExistsException]
+}
+
+PACKAGE data {
+  PACKAGE dto{
+    [UserDTO]
+    [PhoneDTO]
+  }
+
+  PACKAGE entity{
+    [UserEntity]
+    [PhoneEntity]
+  }
+}
+
+DATABASE H2
+
+[UserController] -up-> HTTP : use
+[UserController] --> [UserService] : use
+
+[UserService] --> [UserRepository] : use
+[UserService] --> [UserMapper] : use
+[UserService] --> [RegexUtil] : use
+[UserService] --> [UriUtil] : use
+
+[UserRepository] -up-> H2
+[UserRepository] -down-> [UserEntity]
+
+[UserMapper] -down-> [UserDTO]
+[UserMapper] -down-> [UserEntity]
+
+[SpringFramework] --> [SecurityConfig] : use
+[SpringFramework] --> [ApiExceptionHandler] : use
+[SecurityConfig] --> [JWTUtil] : use
+[SecurityConfig] --> [JwtAuthenticationFilter] : use
+[SecurityConfig] --> [JwtAuthorizationFilter] : use
+
+[UserMapper] --> [PasswordEncodeUtil] : use
+
+note right of [UserController]
+  **Endpoints**
+
+  url: /sign-up
+  body: {
+    "name": String,
+    "email": String,
+    "password": String,
+    "phones": [
+      {
+        "number": long,
+        "citycode": int,
+        "contrycode": String
+      }
+    ]
+  }
+
+  url: /login
+  body: {
+    "email": String,
+    "password": String
+  }
+end note
+
+note right of [UserMapper]
+  **Conversión:**
+  - de [UserDTO] a [UserEntity]
+  - de [UserEntity] a [UserDTO]
+end note
+
+@enduml
