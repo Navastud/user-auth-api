@@ -1,0 +1,39 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+spring:
+  config:
+    activate:
+      on-profile: local
+    name: user-auth-api
+  datasource:
+    url: jdbc:h2:mem:user-auth
+    driver-class-name: org.h2.Driver
+    password: qwerty123
+    username: sa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+springdoc:
+  api-docs:
+    path: /api-docs
+
+jwt:
+  expiration: 3600000
+  secret: java-2023
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+
+
+password:
+  secret:
+    key: spring-security-2023

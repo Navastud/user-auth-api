@@ -1,0 +1,6 @@
+ext {
+    majorVer = '1'
+    minorVer = '0'
+    patchVer = '0'
+    type = 'SNAPSHOT'
+}

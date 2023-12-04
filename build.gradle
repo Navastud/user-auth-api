@@ -1,0 +1,39 @@
+buildscript {
+    ext {
+        springBootVer = '2.5.14'
+        springDepVer = '1.1.4'
+        googleJavaFormatVer = '0.9'
+        openApiVer = '1.6.0'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version "${springBootVer}"
+    id 'io.spring.dependency-management' version "${springDepVer}"
+    id 'com.github.sherter.google-java-format' version "${googleJavaFormatVer}"
+    id "org.springdoc.openapi-gradle-plugin" version "${openApiVer}"
+}
+
+apply from: 'gradle/version.gradle'
+
+group = 'com.navastud'
+version = "${majorVer}.${minorVer}.${patchVer}-${type}"
+
+apply from: 'gradle/sources.gradle'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+apply from: 'gradle/dependencies.gradle'
+apply from: 'gradle/open-api.gradle'
+apply from: 'gradle/tests.gradle'

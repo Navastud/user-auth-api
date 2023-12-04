@@ -1,0 +1,46 @@
+ext {
+    springDocOpenApiLibVer = '1.7.0'
+    jwtVer = '0.11.5'
+    lombokVer = '1.18.30'
+    mapstructVer = '1.5.5.Final'
+    h2Ver = '2.2.224'
+}
+
+dependencies {
+
+    // Spring Boot
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+
+    // JWT
+    implementation("io.jsonwebtoken:jjwt-api:${jwtVer}")
+    implementation("io.jsonwebtoken:jjwt-impl:${jwtVer}")
+    implementation("io.jsonwebtoken:jjwt-jackson:${jwtVer}")
+
+    // Springdoc OpenAPI UI
+    implementation("org.springdoc:springdoc-openapi-ui:${springDocOpenApiLibVer}")
+
+    // Lombok
+    implementation("org.projectlombok:lombok:${lombokVer}")
+    annotationProcessor("org.projectlombok:lombok:${lombokVer}")
+    testImplementation("org.projectlombok:lombok:${lombokVer}")
+    testAnnotationProcessor("org.projectlombok:lombok:${lombokVer}")
+
+    // Mapstruct
+    implementation("org.mapstruct:mapstruct:${mapstructVer}")
+    annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVer}")
+    testAnnotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVer}")
+
+    // H2
+    runtimeOnly("com.h2database:h2:${h2Ver}")
+
+    implementation 'org.yaml:snakeyaml:1.28'
+    testImplementation 'org.yaml:snakeyaml:1.28'
+
+}
