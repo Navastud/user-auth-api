@@ -18,7 +18,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers("/users/sign-up", "/user/{id}", "/actuator", "/actuator/*")
+        .antMatchers(
+            "/users/sign-up",
+            "/user/{id}",
+            "/actuator",
+            "/actuator/health",
+            "/actuator/health/**",
+            "/api/v1/swagger-ui/index.html",
+            "/swagger-ui*/**")
         .permitAll()
         .anyRequest()
         .authenticated()

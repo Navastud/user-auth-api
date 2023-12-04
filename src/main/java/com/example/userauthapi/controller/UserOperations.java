@@ -28,5 +28,6 @@ public interface UserOperations {
   ResponseEntity<UserResponseDTO> singUp(@Valid @RequestBody UserDTO userDTO);
 
   @GetMapping(value = "/login", produces = APPLICATION_JSON_VALUE)
+  @Operation(summary = "Login User")
   ResponseEntity<UserResponseDTO> login(@RequestHeader("Authorization") String token);
 }

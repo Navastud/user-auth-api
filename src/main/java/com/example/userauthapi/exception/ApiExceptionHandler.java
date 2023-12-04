@@ -41,7 +41,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     return buildResponseEntityErrorResponseDTO(exception.getMessage(), HttpStatus.FORBIDDEN);
   }
 
-
   @ExceptionHandler(NotFoundException.class)
   public ResponseEntity<Object> handlerNotFoundException(NotFoundException exception) {
     log.error(exception);
@@ -65,9 +64,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler({
-      BadRequestException.class,
-      DuplicateKeyException.class,
-      MissingRequestHeaderException.class
+    BadRequestException.class,
+    DuplicateKeyException.class,
+    MissingRequestHeaderException.class
   })
   public ResponseEntity<Object> handlerBadRequestException(BadRequestException exception) {
     log.error(exception);
