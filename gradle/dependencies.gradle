@@ -4,6 +4,8 @@ ext {
     lombokVer = '1.18.30'
     mapstructVer = '1.5.5.Final'
     h2Ver = '2.2.224'
+    pitestGradleVer = '1.9.11'
+    pitestJUnit5Ver = '1.1.2'
 }
 
 dependencies {
@@ -42,5 +44,8 @@ dependencies {
 
     implementation 'org.yaml:snakeyaml:1.28'
     testImplementation 'org.yaml:snakeyaml:1.28'
+
+    pitest("org.pitest:pitest-junit5-plugin:${pitestJUnit5Ver}")
+    pitest("org.pitest:pitest-command-line:${pitestGradleVer}")
 
 }

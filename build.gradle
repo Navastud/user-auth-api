@@ -4,24 +4,45 @@ buildscript {
         springDepVer = '1.1.4'
         googleJavaFormatVer = '0.9'
         openApiVer = '1.6.0'
+        pitestGradleVer = '1.9.11'
+        jacocoVer = '0.8.10'
+
+        recommendedThreads = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
     }
 }
 
 plugins {
     id 'java'
     id 'idea'
+    id 'jacoco'
     id 'org.springframework.boot' version "${springBootVer}"
     id 'io.spring.dependency-management' version "${springDepVer}"
     id 'com.github.sherter.google-java-format' version "${googleJavaFormatVer}"
     id "org.springdoc.openapi-gradle-plugin" version "${openApiVer}"
+    id 'info.solidsoft.pitest' version "${pitestGradleVer}"
 }
 
-apply from: 'gradle/version.gradle'
-
 group = 'com.navastud'
-version = "${majorVer}.${minorVer}.${patchVer}-${type}"
+version = "1.0.0-SNAPSHOT"
 
-apply from: 'gradle/sources.gradle'
+tasks.withType(JavaCompile).configureEach {
+    options.warnings = true
+}
+
+compileJava {
+    setSourceCompatibility(11)
+    setTargetCompatibility(11)
+}
+
+googleJavaFormat {
+    setToolVersion("1.8")
+    options style: "GOOGLE"
+}
+
+wrapper {
+    setGradleVersion("7.4")
+    setDistributionType(Wrapper.DistributionType.ALL)
+}
 
 configurations {
     compileOnly {
@@ -34,6 +55,12 @@ repositories {
     mavenLocal()
 }
 
+openApi {
+    apiDocsUrl.set("http://localhost:8080/api/v1/api-docs")
+    outputDir.set(file("$rootDir/tools/openapi"))
+    outputFileName.set("${name}.yaml")
+    waitTimeInSeconds.set(30)
+}
+
 apply from: 'gradle/dependencies.gradle'
-apply from: 'gradle/open-api.gradle'
 apply from: 'gradle/tests.gradle'

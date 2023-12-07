@@ -1,6 +1,0 @@
-openApi {
-    apiDocsUrl.set("http://localhost:8080/api/v1/api-docs")
-    outputDir.set(file("$rootDir/tools/openapi"))
-    outputFileName.set("${name}.yaml")
-    waitTimeInSeconds.set(30)
-}

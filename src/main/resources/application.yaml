@@ -3,9 +3,9 @@ server:
   servlet:
     context-path: /api/v1
 spring:
+  profiles:
+    active: local
   config:
-    activate:
-      on-profile: local
     name: user-auth-api
   datasource:
     url: jdbc:h2:mem:user-auth
@@ -17,6 +17,8 @@ spring:
   h2:
     console:
       enabled: true
+      settings:
+        web-allow-others: true
       path: /h2-console
 springdoc:
   api-docs:
@@ -24,15 +26,12 @@ springdoc:
 
 jwt:
   expiration: 3600000
-  secret: java-2023
 
 logging:
   level:
     org:
       springframework:
         security: DEBUG
-
-
 
 password:
   secret:

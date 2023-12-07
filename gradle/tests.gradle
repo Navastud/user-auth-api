@@ -1,3 +1,40 @@
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    setMaxParallelForks(recommendedThreads)
+    setForkEvery(100)
+}
+
+pitest {
+    pitestVersion.set(pitestGradleVer)
+    targetClasses.set(['com.navastud.userauthapi.*'])
+    threads.set(recommendedThreads)
+    outputFormats.set(['XML', 'HTML'])
+    mutationThreshold.set(85)
+    coverageThreshold.set(92)
+    reportDir.set('build/reports/mutation-tests-results' as File)
+    timestampedReports.set(false)
+    failWhenNoMutations.set(true)
+    historyInputLocation.set('build/history.pitest' as File)
+    historyOutputLocation.set('build/history.pitest' as File)
+    verbose.set(false)
+    useClasspathFile.set(true)
+    excludedClasses.set([
+            'com.navastud.userauthapi.config.*',
+            'com.navastud.userauthapi.exception.*',
+            'com.navastud.userauthapi.filter.*',
+            'com.navastud.userauthapi.model.*',
+    ])
+}
+
+jacoco {
+    setToolVersion(jacocoVer)
+}
+
+jacocoTestReport {
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+        csv.required.set(false)
+    }
 }

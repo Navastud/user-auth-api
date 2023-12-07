@@ -9,6 +9,14 @@ Execute command to clean and build project
 ```bash
 ./gradlew clean build
 ```
+## Run Pitest
+
+To execute pitest and generate report execute command
+```bash
+./gradlew pitest
+```
+
+
 
 ## Run
 Next, to execute app in port 8080 with active profile local execute command
@@ -57,6 +65,17 @@ curl --location --request GET 'http://localhost:8080/api/v1/actuator/health'
 To review the Open API documentation, you should go to the URL
 
 http://localhost:8080/api/v1/swagger-ui.html
+http://localhost:8080/api/v1/api-docs
+
+## H2
+
+To access database you should go to the URL
+http://localhost:8080/api/v1/h2-console
+
+and use the next credentials
+
+user: sa
+password: qwerty123
 
 ## Diagrams
 
