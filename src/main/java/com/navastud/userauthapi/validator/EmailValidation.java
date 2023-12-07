@@ -8,8 +8,8 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.navastud.userauthapi.validator.impl.EmailValidator;
 import com.navastud.userauthapi.util.RegexUtil;
+import com.navastud.userauthapi.validator.impl.EmailValidator;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

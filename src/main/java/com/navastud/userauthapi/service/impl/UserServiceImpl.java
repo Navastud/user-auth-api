@@ -21,9 +21,7 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
 
-  /**
-   * {@inhericDoc}
-   */
+  /** {@inhericDoc} */
   @Override
   public UserResponseDTO registerUser(UserDTO userDTO) {
 
@@ -42,9 +40,7 @@ public class UserServiceImpl implements UserService {
     return UserMapper.INSTANCE.mapUserResponseDTO(userRepository.save(userEntity), token);
   }
 
-  /**
-   * {@inhericDoc}
-   */
+  /** {@inhericDoc} */
   @Override
   public UserResponseDTO loginUser(String token) {
 

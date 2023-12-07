@@ -1,7 +1,7 @@
 package com.navastud.userauthapi.validator.impl;
 
-import com.navastud.userauthapi.validator.EmailValidation;
 import com.navastud.userauthapi.util.RegexUtil;
+import com.navastud.userauthapi.validator.EmailValidation;
 import java.util.Objects;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
